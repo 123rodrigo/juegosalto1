@@ -1,0 +1,138 @@
+<html>
+    <head>
+        <!-- Pull the engine from the Quintus CDN or load it locally -->
+        <!-- (use quintus-all.min.js for production) -->
+        <!-- <script src='http://cdn.html5quintus.com/v0.2.0/quintus-all.js'></script> -->
+        <link href="estilo.css" rel="stylesheet"/>
+        <script src="lib/quintus.js">
+        </script>
+        <script src="lib/quintus_2d.js">
+        </script>
+        <script src="lib/quintus_anim.js">
+        </script>
+        <script src="lib/quintus_audio.js">
+        </script>
+        <script src="lib/quintus_input.js">
+        </script>
+        <script src="lib/quintus_scenes.js">
+        </script>
+        <script src="lib/quintus_sprites.js">
+        </script>
+        <script src="lib/quintus_tmx.js">
+        </script>
+        <script src="lib/quintus_touch.js">
+        </script>
+        <script src="lib/quintus_ui.js">
+        </script>
+        <!-- referenciado los modulos -->
+        <script src="scripts/gameplay.js">
+        </script>
+        <script src="scripts/jugadores.js">
+        </script>
+        <script src="scripts/boton.js">
+        </script>
+        <script src="scripts/jugadorControl.js">
+        </script>
+        <script src="scripts/botonOff.js">
+        </script>
+        <script src="scripts/meta.js">
+        </script>
+    </head>
+    <body>
+        <script>
+            // Now set up your game (most games will load a separate .js file)
+      var Q = Quintus() // Create a new engine instance
+        .include("Sprites, Scenes, 2D, UI,Anim, Touch, Audio, Input") // Load any needed modules
+        .include("GamePlayGUI, JugadoresGUI,  BotonGUI, JugadorcGUI, BotonoffGUI,MetaGUI")
+        .enableSound()                           
+        .setup({
+        width: 1080,
+        height: 720,
+        }).controls().touch()
+        // Add a canvas element onto the page
+        
+
+
+      // para la gravedad
+      Q.gravityX = 0;
+      Q.gravityY = 0;
+      //constantes
+      Q.SPRITE_JUGADORES = 4;
+      Q.SPRITE_BOTON = 5;
+     
+      //Activar el touch
+      Q.touch(Q.SPRITE_BOTON);
+
+      //Escena principal
+      Q.scene("level1", function (stage) {
+
+    
+
+         var cch1 = new Q.level1();
+
+  // ecena de choque
+  Q.scene('choque', function(stage){
+    var container = stage.insert(new Q.UI.Container({
+      x: Q.width/2, y: Q.height/2, fill: "rgba(0,0,0,0.5)"
+    }));
+    var button = container.insert(new Q.UI.Button({ x: 0, y: 0, fill: "#CCCCCC", label: "perdiste"}))
+    var label = container.insert(new Q.UI.Text({x:10, y: -10 - button.p.h, label: stage.options.label }));
+    button.on("click", function(){
+
+      Q.clearStages();
+      Q.stageScene('level1');
+    });
+    container.fit(20);
+  });   
+
+
+      //bloques
+      var jugador1 = new Q.Jugadorc(); 
+     
+      var meta = new Q.Meta();      
+
+      var bloque1 = new Q.Jugador(
+          Q._extend({ x: 150, y: 342 }, Q.tipoJugador["jug2"])
+        );
+       var bloque2 = new Q.Jugador(
+          Q._extend({ x: 300, y: 342 }, Q.tipoJugador["jug2"])
+        );
+        var bloque3 = new Q.Jugador(
+          Q._extend({ x: 500, y: 342 }, Q.tipoJugador["jug2"])
+        );
+         var bloque4 = new Q.Jugador(
+          Q._extend({ x: 700, y: 342 }, Q.tipoJugador["jug2"])
+        );
+          var bloque5 = new Q.Jugador(
+          Q._extend({ x: 900, y: 342 }, Q.tipoJugador["jug2"])
+        );
+ 
+     
+
+      //Boton
+      var botonm = new Q.BotonMusica();
+      var botono = new Q.BotonMusicaOff();
+
+        stage.insert(cch1);
+        stage.insert(jugador1);
+        
+        stage.insert(meta);
+        stage.insert(bloque1);
+        stage.insert(bloque2);
+        stage.insert(bloque3);
+        stage.insert(bloque4);
+        stage.insert(bloque5);
+        stage.insert(botonm);
+        stage.insert(botono);
+
+
+      });  
+      Q.load(
+        "principal3.png,jugadorp.jpg, musica1.mp3,musica3.mp3,barra2.jpg,meta2.png",
+        function () {
+          Q.stageScene("level1");
+        }
+      );
+        </script>
+    </body>
+</html>
